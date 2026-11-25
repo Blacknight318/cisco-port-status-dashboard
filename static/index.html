@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Cisco Port Status</title>
+  <link rel="stylesheet" href="/static/styles.css?v=0.5">
+</head>
+<body>
+  <main>
+    <header>
+      <div><h1>Cisco Port Status</h1><p>Read-only SSH interface status dashboard</p></div>
+      <div id="connection-status" class="status idle">Not connected</div>
+    </header>
+
+    <section class="panel" aria-labelledby="connection-heading">
+      <h2 id="connection-heading">Connect to switch</h2>
+      <form id="connection-form" autocomplete="off">
+        <div class="fields">
+          <label>Switch IP address or hostname<input name="host" required placeholder="192.0.2.10" spellcheck="false"></label>
+          <label>Primary username<input name="primary_username" required autocomplete="username"></label>
+          <label>Primary password<input type="password" name="primary_password" required autocomplete="current-password"></label>
+          <label>Secondary username <span class="optional">optional</span><input name="secondary_username" autocomplete="off"></label>
+          <label>Secondary password <span class="optional">optional</span><input type="password" name="secondary_password" autocomplete="off"></label>
+        </div>
+        <div class="actions"><button id="connect-button" type="submit">Connect and refresh</button><button id="clear-button" type="button" class="secondary">Clear</button></div>
+        <p class="note">Passwords are submitted only to this local dashboard request, never saved, and cleared from this form after each attempt.</p>
+      </form>
+    </section>
+
+    <section id="trust-panel" class="panel hidden" aria-live="polite">
+      <h2>Confirm SSH host key</h2>
+      <p>This is the first connection to this switch. Verify the fingerprint against a trusted source before accepting it.</p>
+      <code id="fingerprint"></code>
+      <div class="actions"><button id="trust-button">Trust fingerprint and connect</button><button id="cancel-trust" class="secondary">Cancel</button></div>
+    </section>
+
+    <section id="results" class="hidden">
+      <div id="summary" class="summary"></div>
+      <div class="legend" aria-label="Status legend">
+        <span class="active">Green: connected</span><span class="disconnected">Yellow: disconnected</span><span class="disabled">Gray: admin disabled</span><span class="error">Red: error-disabled</span><span class="unknown">Blue: other/unknown</span>
+      </div>
+      <div id="ports" class="port-grid"></div>
+    </section>
+  </main>
+  <script src="/static/app.js?v=0.5"></script>
+</body>
+</html>
